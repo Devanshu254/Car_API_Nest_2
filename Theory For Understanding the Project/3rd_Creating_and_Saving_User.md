@@ -11,18 +11,20 @@
 ![alt text](images/15th.png)
 
 ## More On Create VS Save. Video 53.
-> Suppose that we wants to add a function that is going to log out ever operation that we do on user. In another words if we try to create a new user and save it to the database if we try to update a user or remove a user. I wants to do a console log that says we are updating, saving or whatever. 
+> Suppose that we wants to add a function that is going to log out our operation that we do on user. In another words if we try to create a new user and save it to the database if we try to update a user or remove a user. I wants to do a console log that says we are updating, saving or whatever. 
 > One way we can easily do this by using a feature within Typeorm called Hooks. Hooks allows us to define a function within an entity that will be called automatically at points on time.
 > Within our user.entity.ts let us define a function logInsert() {} and after that we import AfterInsert decorator and mark logInsert() {} as AfterInsert() {}. Whenever we create a new user within our database, this function should get executed.
 ```
+import { AfterInsert } from 'typeorm';
 @AfterInsert() 
-    logInsert() {
-        console.log('Inserted User With ID', this.id); // Here this is a reference to the entity that we just inserted.
-    }
+logInsert() {
+    console.log('Inserted User With ID', this.id); // Here this is a reference to the entity that we just inserted.
+}
 ```
 > We are going to do the same process whenever we update a user, or remove a user. To handle them we are going to create two other decorators. 
 > Import AfterRemove, AfterUpdate.
 ```
+import { AfterUpdate, AfterRemove } from 'typeorm';
 @AfterUpdate() 
 logUpdate() {
     console.log('Updated user with id', this.id);
