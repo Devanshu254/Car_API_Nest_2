@@ -167,3 +167,49 @@ content-type: application/json
     "email": "aaaa@aaaa.com"
 }
 ```
+
+## Video 61: A Few Notes On Exceptions.
+> Specifically some of the errors which we are throwing inside our user service within some functions we are currently throwing some plain errors, ideally we will not throw some plain error objects because nest does not know that how to extract information from that. Instead we will throw some exceptions that are implemented or created by nest such as NotFoundException, BadRequestExeception all those other ones..
+> In our messaging application we were throwing errors directly from controller but in this case we have our user service that is currently throwing some errors. In this case errors are coming form service not controller.
+![alt text](images/22th.png)
+> If we start throwing some erros from HTTP specific errors from our user service, we start to have a tough time using this service on future controller which makes use of different communication protocols.
+
+> There is an issue here if we are throwing errors from services. The issue is, We have UserService, We are saying that we probably wanted to throw not found exception. If we are going to throw some error it is going to flow back up right now to our userController which communicates over HTTP But remember, Nest Itself is designed assuming that you might eventually handle communication protocols besides HTTP requests. So For Example: We might eventually have another kind of controller inside of our application designed to handle web socket trafic, we also might have a different controller designed to handle gRPC requests. NotFoundExceptions are not compatible with any other kind of communication protocol. So if we throw an error like not found exception from the user service and that user service is being used by other kind of controllers, these controllers are not going to properly capture that error, extract information from it, and send a response back to whoever made the request for us. So, All i want you to understand is, IF we start throwing HTTP specific errors from our user service, we start to have a kind of tough time resusing this servic on future controller that make use of Different communication protocols.
+> A very easy thing to do here is to make your own exceptional filter. But nest provide us that itself.
+```
+// within users.service.ts file.
+import {NotFoundException} from 'nestjs/common';
+// Rather then throwing this.
+async remove(id: number) {
+    const user = await this.findOne(id); // Finding a user with given id.
+    if(! user) {
+        throw new Error('User not found');
+    }
+    return this.repo.remove(user);
+}
+
+// We will throw.
+async remove(id: number) {
+    const user = await this.findOne(id); // Finding a user with given id.
+    if(! user) {
+        throw new NotFoundException('User not found'); // Changed.
+    }
+    return this.repo.remove(user);
+}
+// We will also do the same thing for remove method as well.
+```
+> We will also go to controller file and then we will update findOne method and we will add NotFoundException to findOne error.
+```
+// Updated Find User Function.
+@Get('/:id')
+async findUser(@Param('id') id:string) {
+    // Inside our database our id's are going to be stored as numbers. But whenever we receive a request. Every single part of the URL is string even if we think that it is a number. We need to take that string and parse that string into a number.
+    const user =  await this.usersService.findOne(parseInt(id));
+    if(! user) {
+        throw new NotFoundException('user not found');
+    }
+    else {
+        return user;
+    }
+}
+```

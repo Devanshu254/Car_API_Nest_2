@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Param, Get, Query, Delete, Patch } from '@nestjs/common';
+import { Body, Controller, Post, Param, Get, Query, Delete, Patch, NotFoundException} from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user-dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user-dto';
@@ -13,9 +13,15 @@ export class UsersController {
     }
 
     @Get('/:id')
-    findUser(@Param('id') id:string) {
+    async findUser(@Param('id') id:string) {
         // Inside our database our id's are going to be stored as numbers. But whenever we receive a request. Every single part of the URL is string even if we think that it is a number. We need to take that string and parse that string into a number.
-        return this.usersService.findOne(parseInt(id));
+        const user =  await this.usersService.findOne(parseInt(id));
+        if(! user) {
+            throw new NotFoundException('user not found');
+        }
+        else {
+            return user;
+        }
     }
 
     // Because we want to pull out some information from query string, we will make use of query decorator.
