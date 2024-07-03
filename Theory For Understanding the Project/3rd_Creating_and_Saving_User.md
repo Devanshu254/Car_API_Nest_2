@@ -131,3 +131,39 @@ removeUser(@Param('id') id: string) {
 ```
 > Check using ThunderClient.
 
+## Video 59: Updating Records.
+![alt text](images/20th.png)
+> Update the user with a given id. We have a PATCH request coming up. It is going to have a body with email and password that we want to handle a user with. This is going to be more difficult then others because this is going to have a body. For creating a new user we have created a DTO's we might need the simiar kind of step to handle this updating records.
+![alt text](images/21th.png)
+> Create an update-user-dto.ts file.
+```
+import { IsEmail, IsString, IsOptional} from 'class-validator';
+
+export class UpdateUserDto {
+    @IsEmail()
+    @IsOptional()
+    email: string;
+
+    @IsString()
+    @IsOptional()
+    password: string;
+}
+```
+> Now we will go back to our users-controller.
+```
+import { UpdateUserDto } from './dtos/update-user-dto';
+@Patch('/:id')
+updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
+    return this.usersService.update(parseInt(id), body);
+}
+```
+> checking.
+```
+### Update a user.
+PATCH http://localhost:3000/auth/2
+content-type: application/json
+
+{
+    "email": "aaaa@aaaa.com"
+}
+```
