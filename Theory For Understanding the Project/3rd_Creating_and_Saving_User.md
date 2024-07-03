@@ -94,3 +94,40 @@ async remove(id: number) {
 ```
 > Now our service is in a good spot. Now all we have to do is to go back to our controller and we have to define couple of route handlers inside of here and call the associated methods. And then we will do manual route handling.
 
+## Video 58: Finding and Filtering Records.
+> Now lets add all the different route handlers within our controller.
+![alt text](images/18th.png)
+> We are going to pull out some information from the incoming request and then pass that information along with the relevant method which we have just defined inside our service. Some of these are really going to be easy and straight forward others are little bit more complicated in nature.
+> Go to Users.Controller.ts and import Get, Patch, Param, Query. These are all different decorators which we are going to use to implement these remaining route handlers.
+> The first handler that we will put together is the one that fetch with the user with the very particular id. For that inside our controller we will add the get decorator.
+```
+@Get('/:id')
+findUser(@Param('id') id:string) {
+    // Inside our database our id's are going to be stored as numbers. But whenever we receive a request. Every single part of the URL is string even if we think that it is a number. We need to take that string and parse that string into a number.
+
+    return this.usersService.findOne(parseInt(id));
+}
+```
+> Now go to API client and try to test out that route handler.
+> Then We will define the function for find All Users.
+```
+// Because we want to pull out some information from query string, we will make use of query decorator.
+@Get()
+findAllUsers(@Query('email') email:string) {
+    return this.usersService.find(email);
+}
+```
+> Then go to API Client and try to test out that route handler again. If we won't be able to find out the email, we will get an empty array instead.
+![alt text](images/19th.png)
+
+## Video 59: Removing Records.
+> Now we will take care of Delete.
+> We are going to delete that using a Controller method removeUser.
+```
+@Delete('/:id')
+removeUser(@Param('id') id: string) {
+    return this.usersService.remove(parseInt(id));
+}
+```
+> Check using ThunderClient.
+
