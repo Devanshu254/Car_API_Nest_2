@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Param, Get, Query, Delete, Patch, NotFoundException} from '@nestjs/common';
+import { Body, Controller, Post, Param, Get, Query, Delete, Patch, NotFoundException, UseInterceptors, ClassSerializerInterceptor} from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user-dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user-dto';
@@ -12,6 +12,7 @@ export class UsersController {
         this.usersService.create(body.email, body.password);
     }
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Get('/:id')
     async findUser(@Param('id') id:string) {
         // Inside our database our id's are going to be stored as numbers. But whenever we receive a request. Every single part of the URL is string even if we think that it is a number. We need to take that string and parse that string into a number.
