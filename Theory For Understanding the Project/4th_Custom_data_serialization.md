@@ -174,3 +174,6 @@ export function serialize(dto: any) {
 > There are two ways we can do this. 1. We can either take serialize DTO and just copy paste it around all these different request handlers alternatively, we can apply that decorator to the entire controller. If we apply this decorator to the whole controller, then it is going to intercept all outgoing responses inside of here. It is gonna format all the users that is going to return from each of them.
 > Another thing which we need to take care about is we have 'any' type annotation. ideally we avoid using type annotation of any as much as possible. 
 > This we will do it within next video. 
+
+## Video 68: TypeSafety around serialization. Try to get rid of some of these 'any' type annotations.
+> Applying any type of typesafety around any type is going to be really challenging.
