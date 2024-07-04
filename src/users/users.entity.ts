@@ -1,5 +1,5 @@
 import { AfterInsert, AfterRemove, AfterUpdate , Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { Exclude } from 'class-transformer'; // This will describe how to take an instance of user and turn it into a plain object. We are going to apply this exclude decorator to password property.
+
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
@@ -9,7 +9,6 @@ export class User {
     email: string;
 
     @Column()
-    @Exclude()
     password: string;
 
     @AfterInsert() 

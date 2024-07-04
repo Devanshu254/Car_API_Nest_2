@@ -45,3 +45,45 @@ async findUser(@Param('id') id:string) {
 > Till this point of time, we have seen DTO's in incoming requests but the turn DTO's are not only used for handling incoming data but also for formating for outgoing data.
 
 > One User DTO for admin controller. Second DTO for Second public Route. We are going to apply this custom interceptors inside each of our different route handlers.
+
+## Video 64 - How to build interceptors.
+> Interceptors can mess up with incoming requests as well as outgoing response.
+> Interceptors can be applied to either a single route handler, all the handlers in controller or to entier controller or globally.
+![alt text](images/29th.png)
+> Step1: Find User.entity.ts and remove the method which we have seen. The method which was given by NestJs Documentation.
+
+> Inside src directory create a new folder interceptors. 
+```
+// It is going to take an object and serialize it eventually into json.
+import {
+    UseInterceptors,
+    NestInterceptor,
+    ExecutionContext,
+    CallHandler
+} from '@nestjs/common';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { plainToClass } from 'class-transformer';
+
+// Implements is not same as extends: we use extends when we are subclassing an existing class, but we make use of implements anytime when we want to create a new class that satisfies all the requirements either in abstract class or in interface.
+// By adding implements: typescript is going to check all the methods which are there within this interface NestInterceptor.
+
+export class SerializeInterceptor implements NestInterceptor {
+    intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
+        throw new Error('Method not implemented.');
+    }
+    intercept(context: ExecutionContext, handler: CallHandler): Observable<any> {
+        // Run something before a request is handled by the request handler.
+        console.log('I am running before the handler', context);
+
+        // Code that deals with outgoing request.
+        return handler.handle().pipe(
+            map((data: any) => {
+                // Run something before the response is sent out.
+                console.log('I am running before response is sent out', data);
+            }),
+        );
+    }
+}
+```
+> Inside controller we will go and include that class which we have defined.
