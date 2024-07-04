@@ -5,20 +5,17 @@ import { UpdateUserDto } from './dtos/update-user-dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 
+
 @Controller('auth')
+@Serialize(UserDto) 
 export class UsersController {
     constructor(private usersService: UsersService) {}
-    // We are defining a route which will setup our request handler. Which will handle the request related to signup.
     @Post('/signup')
     createUser(@Body() body: CreateUserDto) {
         this.usersService.create(body.email, body.password);
     }
-
-    // @UseInterceptors(new SerializeInterceptor(UserDto))
-    @Serialize(UserDto)
     @Get('/:id')
     async findUser(@Param('id') id:string) {
-        console.log('Handler is running');
         // Inside our database our id's are going to be stored as numbers. But whenever we receive a request. Every single part of the URL is string even if we think that it is a number. We need to take that string and parse that string into a number.
         const user =  await this.usersService.findOne(parseInt(id));
         if(! user) {
