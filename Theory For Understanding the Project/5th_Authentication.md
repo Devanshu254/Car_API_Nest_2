@@ -28,3 +28,31 @@
 > Users directory -> auth.service.ts
 > We will make auth.service.ts and then import it into module.ts and add it into list of providers.
 > We also need users service within auth service because they are dependent. We will import { User service} within auth.service.ts.
+
+## Video 72: Implementing Signup Functionality.
+```
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { UsersService } from './users.service';
+
+@Injectable()
+export class AuthService {
+    constructor(private usersService: UsersService) {}
+
+    async signup(email: string, password: string) {
+        // See the email is in use.
+        const users = await this.usersService.find(email); 
+        if(users.length) {
+            throw new BadRequestException('email in use');
+        }
+        // Hash the password.
+        
+        // Create a new user and save it.
+
+        // return the user.
+    }
+
+    signin() {
+
+    }
+}
+```
