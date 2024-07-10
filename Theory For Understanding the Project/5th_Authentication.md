@@ -56,3 +56,36 @@ export class AuthService {
     }
 }
 ```
+
+## Video 73: Understanding Password Hashing.
+![alt text](images/41.png)
+> Currently we are storing our passwords in plain text. But it is very bad. Because if any malacious person ever got a copy of our database. They will have the email and password of all our different users. The reason this is a big deal is not only because some malacious person can get singup in our application as another person its also a big deal because our users might use a same email and password combination as on our application as they do in other applications (Data breach in other website may lead to get access to different accounts).
+![alt text](images/42.png)
+> We will use hashing function for storage of password.
+> Hashing functions are not only used for password storage they are used for lot of security applications. We are not going to write out our own hasing function instead there are variety of different hashing functions that are already implemented within node standard library. So we are going to build them. 
+> The goal of hashing function is to take some kind of input "any format" it is then going to calculate hash out of it and output a kind of "digital fingureprint". 
+> We are going to get a string of numbers and letters. This string of numbers and letters has two very important characterstics around it.
+
+## Two important characterstics of hashing function.
+> First: If we ever going to change the input we are going to get back a completely different output. Same input string will give the same output.
+![alt text](images/43.png)
+> Second: If we pass output value to the input we will never get orignal input.
+![alt text](images/44.png)
+
+## Signup flow.
+![alt text](images/45.png)
+
+## Signin flow.
+![alt text](images/46.png)
+
+## Rainbow table attack.
+> There is some malacious person who has stored some most popular passwords which are there in the world and then he will calculate the hash of all the time, they can just store it within a table. So if he got the access to our database anytime, they could have a look at hashed password.
+![alt text](images/47.png)
+
+## Preventing Rainbow table attack.
+> Salt: Random series of numbers and letters.
+
+> Signup flow.
+![alt text](images/48.png)
+> Signin flow.
+![alt text](images/49.png)
