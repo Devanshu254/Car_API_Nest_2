@@ -89,3 +89,16 @@ export class AuthService {
 ![alt text](images/48.png)
 > Signin flow.
 ![alt text](images/49.png)
+
+# Salting and hashing the password.
+> We need to generate a salt, hash the salt along with the password and then store both the hash password and salt within our db.
+
+within auth.service.ts -> 
+> import { randomBytes, scrypt as _scrypt} from 'crypto';
+// Crypto package is a part of node standard library, randombytes(we are going to use to generate our salt) scrypt: actual hashing password. This scrypt function is asynchronous in nature. Rather than giving us promise we will have to use call backs. So, we will do one more extra thing in order to remove this means in order to make sure that scrypt gives us promise so we do not have to use callbacks.
+> import { promisify } from 'util';
+Promisify is a function that will take a function that will make use of callbacks and it is going to give us back a version of that exact same function that makes use of promises.
+const scrypt = promisify(_scrypt);
+// Generate a salt.
+> const salt = randomBytes(8).toString('hex');
+// The `randomBytes(8).toString('hex')` function generates a cryptographically strong pseudorandom string of 8 bytes (64 bits) and converts it to a hexadecimal representation. Each byte is displayed using two characters in hexadecimal format. So, the resulting string will be 16 characters long, representing the 8 random bytes¹². For example, it might produce something like `ee48d32e6c724c4d`. 😊
