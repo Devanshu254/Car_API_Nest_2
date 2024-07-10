@@ -102,3 +102,10 @@ const scrypt = promisify(_scrypt);
 // Generate a salt.
 > const salt = randomBytes(8).toString('hex');
 // The `randomBytes(8).toString('hex')` function generates a cryptographically strong pseudorandom string of 8 bytes (64 bits) and converts it to a hexadecimal representation. Each byte is displayed using two characters in hexadecimal format. So, the resulting string will be 16 characters long, representing the 8 random bytes¹². For example, it might produce something like `ee48d32e6c724c4d`. 😊
+> const hash = (await scrypt(password, salt, 32)) as Buffer; // 32: will give us back 32 characters or 32 bytes. Buffer will get returned by calling scrypt function.
+// Join the hash result and the salt together.
+> const result = salt + '.' + hash.toString('hex');
+// Create a new user and save it.
+> const user = await this.usersService.create(email, result);
+// return the user.
+return user;
