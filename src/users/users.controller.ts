@@ -18,6 +18,10 @@ export class UsersController {
     createUser(@Body() body: CreateUserDto) {
         return this.authService.signup(body.email, body.password);
     }
+    @Post('/signin')
+    signin(@Body() body: CreateUserDto) {
+        return this.authService.signin(body.email, body.password);
+    }
     @Get('/:id')
     async findUser(@Param('id') id:string) {
         // Inside our database our id's are going to be stored as numbers. But whenever we receive a request. Every single part of the URL is string even if we think that it is a number. We need to take that string and parse that string into a number.

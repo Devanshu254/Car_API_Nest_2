@@ -109,3 +109,5 @@ const scrypt = promisify(_scrypt);
 > const user = await this.usersService.create(email, result);
 // return the user.
 return user;
+
+## Video 76: Handling User Sign In.
