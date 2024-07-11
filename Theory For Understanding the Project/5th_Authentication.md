@@ -111,3 +111,23 @@ const scrypt = promisify(_scrypt);
 return user;
 
 ## Video 76: Handling User Sign In.
+
+## Video 77: Setting up Sessions.
+> We have setup signup and signin the user. But we still do not have the ability to say whether this person is signed in and this person is not signed in. That is where this cookiee stuff will come.
+> There is a package which is named as cookieSession. 
+![alt text](images/50.png)
+> We need to install some of the libraries.
+```
+npm install cookie-session @types/cookie-session
+```
+> Then we are going to find our main.ts file and we are going to wire up our cookie session middleware inside here at the very top.
+```
+// Import cookie session object.
+const cookieSession = require('cookie-session'); // we have to use require method in order to import this because of some settings.
+
+app.useGlobalPipes( 
+    new ValidationPipe({
+      whitelist: true
+    })
+  )
+```
