@@ -13,25 +13,18 @@ export class UsersController {
         private usersService: UsersService,
         private authService: AuthService
     ) {}
-    
-    // Below is how we can store information on this session object.
-    @Get('/colors/:color')
-    setColor(@Param('color') color: string, @Session() session: any) {
-        session.color = color;
-    }
-    // How can we retreive the session object on follow up request very easily.
-    @Get('/colors')
-    getColor(@Session() session:any) {
-        return session.color;
-    }
 
     @Post('/signup')
-    createUser(@Body() body: CreateUserDto) {
-        return this.authService.signup(body.email, body.password);
+    async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+        const user = await this.authService.signup(body.email, body.password);
+        session.userId = user.id;
+        return user;
     }
     @Post('/signin')
-    signin(@Body() body: CreateUserDto) {
-        return this.authService.signin(body.email, body.password);
+    async signin(@Body() body: CreateUserDto, @Session() session: any) {
+        const user = await this.authService.signin(body.email, body.password);
+        session.userId = user.id;
+        return user;
     }
     @Get('/:id')
     async findUser(@Param('id') id:string) {

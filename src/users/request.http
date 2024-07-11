@@ -1,10 +1,19 @@
 ### Create a new user.
+POST http://localhost:3000/auth/signup
+Content-type: application/json 
+
+{
+    "email": "test@test.com",
+    "password":"12345"
+}
+
+### sign in as an existing user.
 POST http://localhost:3000/auth/signin
 Content-type: application/json 
 
 {
-    "email": "asdf10@asdf.com",
-    "password":"adfahgljs"
+    "email": "test@test.com",
+    "password":"12345"
 }
 
 ### Find a particular user with a given id.
