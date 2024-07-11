@@ -177,3 +177,12 @@ export function serialize(dto: any) {
 
 ## Video 68: TypeSafety around serialization. Try to get rid of some of these 'any' type annotations.
 > Applying any type of typesafety around any type is going to be really challenging.
+```
+@Post('/signout') 
+signOut(@Session() session: any) {
+    session.userId = null;
+}
+
+### Sign out.
+POST http://localhost:3000/auth/signout
+```

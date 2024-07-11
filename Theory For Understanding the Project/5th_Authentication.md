@@ -164,3 +164,6 @@ whoAmI(@Session() session: any) {
 ### Get the currently signed in user.
 GET http://localhost:3000/auth/whoami
 ```
+## Video 81: Signing out the user.
+> We should also allow the user to sign out of our application.
+> for this we will add another route handler that will deals with user to signed out.
