@@ -186,3 +186,10 @@ signOut(@Session() session: any) {
 ### Sign out.
 POST http://localhost:3000/auth/signout
 ```
+## Video 69: Two automation tools.
+![alt text](images/51.png)
+> Reject requests to certain handlers if the user is not signed in.
+> Automatically tell a handler who the currently signed in user is.
+![alt text](images/52.png)
+
+> First we will work on -> Automatically tell a handler who the currently signed in user is. [Interceptor + Decorator].
