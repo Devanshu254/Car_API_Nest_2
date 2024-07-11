@@ -131,3 +131,24 @@ app.useGlobalPipes(
     })
   )
 ```
+## Video 78: Changing and Fetching Session Data.
+> Inside of here we are going to understand how to make use of cookie session and the session object that it creates.
+> We will write some code and then we will delete it at the end of the video.
+> I want a new Get request handler inside of my users controller.
+```
+// Below is how we can store information on this session object.
+    @Get('/colors/:color')
+    setColor(@Param('color') color: string, @Session() session: any) {
+        session.color = color;
+    }
+    // How can we retreive the session object on follow up request very easily.
+    @Get('/colors')
+    getColor(@Session() session:any) {
+        return session.color;
+    }
+```
+> then check.
+```
+### Get the color.
+GET http://localhost:3000/auth/colors
+```

@@ -1,11 +1,10 @@
-import { Body, Controller, Post, Param, Get, Query, Delete, Patch, NotFoundException, UseInterceptors, ClassSerializerInterceptor} from '@nestjs/common';
+import { Body, Controller, Post, Param, Get, Query, Delete, Patch, NotFoundException, UseInterceptors, ClassSerializerInterceptor, Session} from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user-dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user-dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
-
 
 @Controller('auth')
 @Serialize(UserDto) 
@@ -14,6 +13,18 @@ export class UsersController {
         private usersService: UsersService,
         private authService: AuthService
     ) {}
+    
+    // Below is how we can store information on this session object.
+    @Get('/colors/:color')
+    setColor(@Param('color') color: string, @Session() session: any) {
+        session.color = color;
+    }
+    // How can we retreive the session object on follow up request very easily.
+    @Get('/colors')
+    getColor(@Session() session:any) {
+        return session.color;
+    }
+
     @Post('/signup')
     createUser(@Body() body: CreateUserDto) {
         return this.authService.signup(body.email, body.password);
