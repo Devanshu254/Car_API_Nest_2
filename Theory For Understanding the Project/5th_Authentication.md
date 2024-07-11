@@ -152,3 +152,15 @@ app.useGlobalPipes(
 ### Get the color.
 GET http://localhost:3000/auth/colors
 ```
+
+## Video 80: Getting the current user.
+> In this video we are going to put another route handler. Just to make sure that the session stuff is working as expected. The goal of this route handler is to tell user who they are currently signed in our application as. 
+```
+@Get('/whoami')
+whoAmI(@Session() session: any) {
+    return this.usersService.findOne(session.userId);
+}
+// Checking.
+### Get the currently signed in user.
+GET http://localhost:3000/auth/whoami
+```
